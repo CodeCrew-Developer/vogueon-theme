@@ -1,0 +1,63 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero_section_7KH6wQ": {
+      "type": "hero-section",
+      "blocks": {
+        "heading_iaG8pH": {
+          "type": "heading",
+          "settings": {
+            "heading": "Tell your story",
+            "heading_size": "medium"
+          }
+        },
+        "text_z4Kfn7": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Pair this with a short, confident line about your brand.</p>"
+          }
+        },
+        "buttons_dArBt4": {
+          "type": "buttons",
+          "settings": {
+            "button_label_1": "Shop now",
+            "button_link_1": "",
+            "button_style_1": "primary",
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_2": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "heading_iaG8pH",
+        "text_z4Kfn7",
+        "buttons_dArBt4"
+      ],
+      "name": "Hero",
+      "settings": {
+        "image": "shopify://shop_images/woman-infront-of-tree-with-berries.jpeg",
+        "image_mobile": "shopify://shop_images/model-in-neutral-colors-by-window.jpg",
+        "height": "large",
+        "overlay_color": "#000000",
+        "overlay_opacity": 10,
+        "color_scheme": "#271b1b",
+        "text_color": "#ffffff",
+        "content_position": "middle",
+        "text_alignment": "center",
+        "heading": "Tell your story"
+      }
+    }
+  },
+  "order": [
+    "hero_section_7KH6wQ"
+  ]
+}

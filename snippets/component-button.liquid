@@ -1,0 +1,94 @@
+{%- comment -%}
+  Renders a button as either <a> (if a url is given) or <button> (for
+  in-page actions like form submits / AJAX add-to-cart). Keeping both
+  behind one snippet means every clickable action in the theme shares
+  the same markup, classes, and states.
+
+  Accepts:
+    label          {string}  required (unless icon_html is icon-only with aria_label set)
+    url            {string}  optional - presence of this decides <a> vs <button>
+    style          {string}  optional - "primary" | "secondary" | "outline" | "link", default "primary"
+    size           {string}  optional - "small" | "medium" | "large", default "medium"
+    full_width     {boolean} optional - default false
+    new_tab        {boolean} optional - adds target="_blank" rel="noopener", default false
+    type           {string}  optional - <button> type attribute: "button" | "submit" | "reset", default "button"
+    name           {string}  optional - form field name (e.g. "add" for add-to-cart submits)
+    disabled       {boolean} optional - default false
+    loading        {boolean} optional - shows a spinner + disables the button, default false
+    icon_html      {string}  optional - pre-rendered icon markup, e.g.:
+                              {% capture icon_html %}{% render 'icon-cart' %}{% endcapture %}
+    aria_label     {string}  optional - required if label is blank (icon-only buttons)
+    id             {string}  optional
+    class          {string}  optional - extra classes appended
+    data_attributes {string} optional - raw attribute passthrough, e.g. 'data-quick-add-id="123"'.
+                              Developer-controlled only — never interpolate user input here.
+
+  Usage:
+    {% render 'button', label: 'Shop now', url: '/collections/all', style: 'primary' %}
+    {% render 'button', label: 'Add to cart', type: 'submit', name: 'add', style: 'primary', full_width: true %}
+{%- endcomment -%}
+
+ {{ 'component-button.css' | asset_url | stylesheet_tag: preload: true }}
+
+{%- liquid
+  assign style = style | default: 'primary'
+  assign size = size | default: 'medium'
+  assign button_type = type | default: 'button'
+
+  assign css_classes = 'button button--' | append: style | append: ' button--' | append: size
+  if full_width
+    assign css_classes = css_classes | append: ' button--full-width'
+  endif
+  if class
+    assign css_classes = css_classes | append: ' ' | append: class
+  endif
+  if disabled or loading
+    assign css_classes = css_classes | append: ' button--disabled'
+  endif
+-%}
+
+{%- if url != blank -%}
+  {%- if disabled -%}
+    <span
+      class="{{ css_classes }}"
+      aria-disabled="true"
+      {% if id %}id="{{ id }}"{% endif %}
+      {% if aria_label %}aria-label="{{ aria_label }}"{% endif %}
+      {{ data_attributes }}
+    >
+      {{ icon_html }}
+      {%- if label != blank -%}<span class="button__label">{{ label }}</span>{%- endif -%}
+    </span>
+  {%- else -%}
+    <a
+      href="{{ url }}"
+      class="{{ css_classes }}"
+      {% if id %}id="{{ id }}"{% endif %}
+      {% if new_tab %}target="_blank" rel="noopener"{% endif %}
+      {% if aria_label %}aria-label="{{ aria_label }}"{% endif %}
+      {{ data_attributes }}
+    >
+      {{ icon_html }}
+      {%- if label != blank -%}<span class="button__label">{{ label }}</span>{%- endif -%}
+    </a>
+  {%- endif -%}
+{%- else -%}
+  <button
+    type="{{ button_type }}"
+    class="{{ css_classes }}"
+    {% if id %}id="{{ id }}"{% endif %}
+    {% if name %}name="{{ name }}"{% endif %}
+    {% if disabled or loading %}disabled{% endif %}
+    {% if loading %}aria-busy="true"{% endif %}
+    {% if aria_label %}aria-label="{{ aria_label }}"{% endif %}
+    {{ data_attributes }}
+  >
+    {%- if loading -%}
+      <span class="button__spinner" aria-hidden="true"></span>
+      <span class="visually-hidden">Loading</span>
+    {%- else -%}
+      {{ icon_html }}
+      {%- if label != blank -%}<span class="button__label">{{ label }}</span>{%- endif -%}
+    {%- endif -%}
+  </button>
+{%- endif -%}
